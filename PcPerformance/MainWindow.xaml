@@ -41,6 +41,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <GroupBox Grid.Row="0">
             <GroupBox.Header>
@@ -125,5 +126,14 @@
                 </ItemsControl>
             </StackPanel>
         </GroupBox>
+        <DockPanel Grid.Row="3"
+                   LastChildFill="False">
+            <CheckBox Name="TopMostCheckbox"
+                      Click="TopMostCheckbox_OnClick"
+                      DockPanel.Dock="Right"
+                      Margin="6">
+                Always on Top
+            </CheckBox>
+        </DockPanel>
     </Grid>
 </mah:MetroWindow>

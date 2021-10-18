@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Threading;
 using OpenHardwareMonitor.Hardware;
 using PcPerformance.Helper;
@@ -62,10 +64,10 @@ namespace PcPerformance
                             // Debug.WriteLine(sensor.Value.ToString());
                             switch (sensor.Name)
                             {
-                                case "CPU Total":
+                                case "CPU Total" when sensor.SensorType == SensorType.Load:
                                     _vm.CpuLoad = PercentString(sensor.Value);
                                     break;
-                                case "CPU Package":
+                                case "CPU Package" when sensor.SensorType == SensorType.Temperature:
                                     _vm.CpuTemp = CelsiusString(sensor.Value);
                                     break;
                             }
@@ -87,8 +89,7 @@ namespace PcPerformance
                             {
                                 case "GPU Core" when sensor.SensorType == SensorType.Clock:
                                 {
-                                    if (sensor.Value != null)
-                                        _vm.GpuClock = $"{Math.Round(sensor.Value.Value)} MHz";
+                                    _vm.GpuClock = MHzString(sensor.Value);
                                     break;
                                 }
                                 case "GPU Core" when sensor.SensorType == SensorType.Load:
@@ -236,6 +237,11 @@ namespace PcPerformance
         {
             _timer.Stop();
             _computer.Close();
+        }
+
+        private void TopMostCheckbox_OnClick(object sender, RoutedEventArgs e)
+        {
+            Topmost = TopMostCheckbox?.IsChecked ?? false;
         }
     }
 }
